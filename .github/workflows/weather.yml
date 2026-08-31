@@ -1,0 +1,27 @@
+name: Daily Prague Weather
+
+on:
+  schedule:
+    - cron: "30 4 * * *"   # 04:30 UTC = 06:30 Prague (summer / CEST). In winter it lands 05:30 Prague.
+  workflow_dispatch:        # adds a "Run workflow" button so you can test it any time
+
+jobs:
+  send-weather:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Send weather to Telegram
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python weather_telegram.py
