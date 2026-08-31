@@ -71,7 +71,7 @@ def write_message(morning, afternoon):
     )
 
     response = client.models.generate_content(
-        model="gemini-2.5-flash",  # free tier, fast
+        gemini-2.5-flash to gemini-3.6-flash
         contents=prompt,
     )
     return response.text.strip()
